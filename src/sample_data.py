@@ -17,6 +17,8 @@ def main():
                         help="outputs only the numbers of the samples lines.")
     parser.add_argument("--portion", type=float, default=0.25,
                        help="portion of the data to sample (default is 0.25).")
+    parser.add_argument("--lines", type=int,
+                        help="number of lines to be randomly sampled.")
     parser.add_argument("--seed", type=int, default=42,
                         help="seed to use in the random number generator.")
 
@@ -26,8 +28,12 @@ def main():
 
     lines = sys.stdin.readlines()
     number_lines = len(lines)
-    sample = random.sample(xrange(number_lines),
-                           int(args.portion * number_lines))
+
+    if args.lines is not None:
+        sample = random.sample(xrange(number_lines), args.lines)
+    else:
+        sample = random.sample(xrange(number_lines),
+                               int(args.portion * number_lines))
 
     # outputs line numbers
     if args.line_id:
